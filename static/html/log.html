@@ -54,7 +54,7 @@
                         const command = input.innerText;
                         input.innerHTML = "";
 
-                        output.innerHTML += "<strong>" + command + "</strong>\n<br>";
+                        output.innerHTML += "\n<strong>" + command + "</strong>\n<br>";
                         writeText(output, execute(command));
                     } else if (e.key === "Backspace") {
                         input.innerHTML = input.innerHTML.substring(0, input.innerHTML.length - 1);
