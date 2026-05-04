@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="pl-PL">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Baza danych</title>
+        <link rel="stylesheet" href="../style/style.css" />
+        <!-- <link rel="icon" href="../img/other/images.png" /> -->
+    </head>
+    <body>
+        <pre id="title"></pre>
+        <pre id="text"></pre>
+        <pre id="yes"></pre>
+        <pre id="output"></pre>
+
+        <div id="prompt"><span id="command-input"></span><span id="cursor" class="blink"></span></div>
+
+        <div id="interlaced"></div>
+        <div id="glare"></div>
+        <audio id="bgAudio" src=""></audio>
+        <script>
+            var content = {};
+            const audio = document.getElementById("bgAudio");
+            const wait = (ms = 0) => new Promise((resolve) => setTimeout(resolve, ms));
+
+            function writeText(target, content, delay = 10) {
+                return new Promise((resolve) => {
+                    const contentArray = content.split(" ");
+
+                    let current = 0;
+
+                    while (current < contentArray.length) {
+                        ((curr) => {
+                            setTimeout(() => {
+                                target.innerHTML += contentArray[curr] + " ";
+
+                                window.scrollTo(0, document.body.scrollHeight);
+
+                                if (curr === contentArray.length - 1) resolve();
+                            }, delay * curr);
+                        })(current++);
+                    }
+                });
+            }
+
+            function handleKeypress(e, input, output) {
+                function noInputHasFocus() {
+                    const elements = ["INPUT", "TEXTAREA", "BUTTON"];
+                    return elements.indexOf(document.activeElement.tagName) === -1;
+                }
+
+                if (noInputHasFocus) {
+                    if (e.key === "Enter") {
+                        const command = input.innerText;
+                        input.innerHTML = "";
+
+                        output.innerHTML += "<strong>" + command + "</strong>\n<br>";
+                        writeText(output, execute(command));
+                    } else if (e.key === "Backspace") {
+                        input.innerHTML = input.innerHTML.substring(0, input.innerHTML.length - 1);
+                    } else if (e.key != "Shift" && e.key != "Alt" && e.key != "Control" && e.key != "AltGraph")
+                        input.insertAdjacentText("beforeend", e.key);
+                }
+
+                function execute(command) {
+                    switch (command.toLowerCase()) {
+                        case "":
+                            return `\n`;
+                        case "play":
+                            audio.play();
+                            return `Pomyślnie odtworzono audio`;
+                        case "pause":
+                            audio.pause();
+                            return `Pomyślnie zatrzymano audio`;
+                        case "reset":
+                            audio.pause();
+                            audio.currentTime = 0;
+                            audio.play();
+                            return `Pomyślnie zresetowano audio`;
+                        case "quit":
+                            window.location.href = "/library";
+
+                        default:
+                            return "Nieznana komenda";
+                    }
+                }
+            }
+
+            document.addEventListener("DOMContentLoaded", async () => {
+                await fetch(`/api/library/${window.location.pathname.split("/").pop()}`)
+                    .then((res) => res.json())
+                    .then((data) => {
+                        content = data;
+                        console.log(content);
+                    });
+                const title = document.getElementById("title");
+                const text = document.getElementById("text");
+                await writeText(title, content.title);
+                await writeText(text, content.content);
+                await writeText(
+                    document.getElementById("yes"),
+                    `______________________________________________________________
+
+            play - odtwórz audio
+            pause - zatrzymaj audio
+            reset - odtwórz od początku
+            quit - cofnij`,
+                );
+                document.title = content.title;
+                audio.src = "../audio/" + content.audio;
+                const prompt = document.getElementById("prompt");
+                const cursor = document.getElementById("cursor");
+                prompt.prepend(">");
+                cursor.innerHTML = "_";
+
+                const input = document.getElementById("command-input");
+                const output = document.getElementById("output");
+                document.addEventListener("keydown", (e) => handleKeypress(e, input, output));
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,16 @@
+No więc jako, że nie chciało mi się pisać tej instrukcji, to Ci ją wygenerowałem w chatGPT XD
+
+Aby uruchomić projekt napisany w Node.js, musisz najpierw zainstalować Node.js na swoim komputerze. Możesz pobrać i zainstalować Node.js z oficjalnej strony internetowej Node.js (https://nodejs.org/en/).
+
+Po zainstalowaniu Node.js, wykonaj następujące kroki, aby uruchomić projekt:
+
+Otwórz terminal (w wierszu poleceń dla systemów Windows lub terminalu dla systemów Linux lub macOS).
+
+Przejdź do katalogu, w którym znajduje się projekt, używając polecenia cd (change directory). Na przykład, jeśli projekt znajduje się w folderze o nazwie "my-project", wpisz cd my-project.
+
+Zainstaluj zależności projektu, wpisując npm install lub yarn install. Upewnij się, że znajdujesz się w katalogu projektu.
+
+Uruchom projekt, wpisując npm start lub yarn start. Otwórz przeglądarkę internetową i przejdź do adresu http://localhost:3000, aby zobaczyć działającą aplikację.
+
+Jeśli po wykonaniu tych kroków napotkasz na jakieś problemy, możesz skontaktować się z autorem projektu lub społecznością Node.js, aby uzyskać pomoc.
+
