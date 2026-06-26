@@ -7,7 +7,7 @@
         <link rel="stylesheet" href="../style/style.css" />
         <!-- <link rel="icon" href="../img/other/images.png" /> -->
     </head>
-    <body>
+    <body class="log">
         <pre id="title"></pre>
         <pre id="text"></pre>
         <pre id="yes"></pre>
@@ -78,7 +78,7 @@
                             audio.play();
                             return `Pomyślnie zresetowano audio`;
                         case "quit":
-                            window.location.href = "/library";
+                            history.back();
                             return ``;
                         default:
                             return "Nieznana komenda";

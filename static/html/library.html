@@ -78,7 +78,7 @@
                     if (command.toLowerCase() == "kocham cię") {
                         return "Ja Pana też!";
                     }
-                    if (helper) return "";
+                    if (helper) return "Wpis znaleziono";
                     return "Brak odpowiedniego wpisu w bazie danych";
                 }
             }
@@ -95,8 +95,8 @@
                 let interText = "\n";
                 content.forEach((el) => {
                     list.push(el.id);
-                    if (el.type == "note") noteText += "\n" + el.id;
-                    else if (el.type == "inter") interText += "\n" + el.id;
+                    if (el.type == "note") noteText += "\n" + el.id + " - " + el.title + "\n";
+                    else if (el.type == "inter") interText += "\n" + el.id + " - " + el.title + "\n";
                 });
                 await writeText(notes, noteText);
                 await writeText(inters, interText);

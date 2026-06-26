@@ -34,7 +34,7 @@ app.get("/api/library/:title", (req, res) => {
 });
 app.get("/api/library", function (req, res) {
     let content = database.map((entry) => {
-        return { id: entry.id, type: entry.type };
+        return { id: entry.id, title: entry.title, type: entry.type };
     });
     res.send(JSON.stringify(content));
 });
